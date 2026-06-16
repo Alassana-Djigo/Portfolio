@@ -1,0 +1,94 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyc
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# =========================
+# Django
+# =========================
+*.log
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# Local settings
+local_settings.py
+
+# =========================
+# Environment variables
+# =========================
+.env
+
+# =========================
+# Migrations (opcional)
+# Ignore apenas se decidir-mos n versioná-las.
+# Em geral, recomenda-se versionar as migrations.
+# */migrations/*
+# !*/migrations/__init__.py
+
+# =========================
+# Static files
+# =========================
+staticfiles/
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
+# PyCharm
+# =========================
+.idea/
+
+# =========================
+# macOS
+# =========================
+.DS_Store
+
+# =========================
+# Windows
+# =========================
+Thumbs.db
+
+# =========================
+# Test / Coverage
+# =========================
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+.cache/
+
+# =========================
+# Build artifacts
+# =========================
+build/
+dist/
+*.egg-info/
+
+# =========================
+# Node (caso exista no frontend)
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+
+
+# =========================
+# PostgreSQL dumps/backups
+# =========================
+*.sql
+*.dump
