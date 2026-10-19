@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
   {% include "sections/hero.html" %}
   {% include "sections/about.html" %}
@@ -6,4 +7,9 @@
   {% include "sections/projects.html" %}
   {% include "sections/experience.html" %}
   {% include "sections/contact.html" %}
+{% endblock %}
+{% block extra_js %}
+  <script src="{% static 'vendor/three.min.js' %}" defer></script>
+  <script src="{% static 'vendor/gsap.min.js' %}" defer></script>
+  <script src="{% static 'js/hero3d.js' %}" defer></script>
 {% endblock %}

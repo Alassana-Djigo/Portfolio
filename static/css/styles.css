@@ -1022,3 +1022,26 @@ body::before {
     transition-duration: 0.01ms !important;
   }
 }
+/* ─── Hero 3D: Lorenz caption ───────────────────────────── */
+.hero__eq {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--cyan);
+  opacity: 0.6;
+  text-align: right;
+  pointer-events: none;
+  user-select: none;
+}
+.hero__eq-title { color: var(--text-dim); margin-bottom: 0.25rem; }
+
+@media (max-width: 768px) {
+  .hero__eq { display: none; }
+  .hero__canvas { opacity: 0.45 !important; }
+}
