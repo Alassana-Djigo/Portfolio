@@ -1,7 +1,7 @@
     <section class="section about" id="about">
         <div class="container">
             <div class="section__header reveal">
-                <span class="section__label mono">01 / about</span>
+                <span class="section__label mono">{{ num.about }} / about</span>
                 <h2 class="section__title">The Logic Behind <span class="text-accent">the Code</span></h2>
             </div>
 
@@ -25,26 +25,34 @@
                 </div>
 
                 <div class="about__stats reveal">
+                    {% if projects %}
                     <div class="stat-card">
                         <div class="stat-card__num" data-count="{{ projects|length }}">0</div>
                         <div class="stat-card__label">Projects</div>
                         <div class="stat-card__eq mono">n = |Projects|</div>
                     </div>
+                    {% endif %}
+                    {% if labs %}
                     <div class="stat-card">
                         <div class="stat-card__num" data-count="{{ labs|length }}">0</div>
                         <div class="stat-card__label">Labs &amp; Rooms</div>
                         <div class="stat-card__eq mono">∀ lab ∈ Practice</div>
                     </div>
+                    {% endif %}
+                    {% if skills_total %}
                     <div class="stat-card">
                         <div class="stat-card__num" data-count="{{ skills_total }}">0</div>
                         <div class="stat-card__label">Technologies</div>
                         <div class="stat-card__eq mono">∀ tool ∈ Stack</div>
                     </div>
+                    {% endif %}
+                    {% if certifications %}
                     <div class="stat-card">
                         <div class="stat-card__num" data-count="{{ certifications|length }}">0</div>
                         <div class="stat-card__label">Certifications</div>
                         <div class="stat-card__eq mono">cert ⊂ Learning</div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

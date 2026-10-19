@@ -5,9 +5,10 @@
             </a>
             <ul class="nav__links" id="navLinks">
                 <li><a href="#about"      class="nav__link">About</a></li>
-                <li><a href="#skills"     class="nav__link">Skills</a></li>
-                <li><a href="#projects"   class="nav__link">Projects</a></li>
-                <li><a href="#experience" class="nav__link">Experience</a></li>
+                {% if show.skills %}<li><a href="#skills"     class="nav__link">Skills</a></li>{% endif %}
+                {% if show.security %}<li><a href="#security"   class="nav__link">Security</a></li>{% endif %}
+                {% if show.projects %}<li><a href="#projects"   class="nav__link">Projects</a></li>{% endif %}
+                {% if show.experience %}<li><a href="#experience" class="nav__link">Experience</a></li>{% endif %}
                 <li><a href="#contact"    class="nav__link">Contact</a></li>
             </ul>
             <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation">
@@ -15,4 +16,3 @@
             </button>
         </div>
     </nav>
-

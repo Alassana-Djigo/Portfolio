@@ -1,0 +1,56 @@
+    <section class="section security" id="security">
+        <div class="container">
+            <div class="section__header reveal">
+                <span class="section__label mono">{{ num.security }} / security</span>
+                <h2 class="section__title">Networks &amp; <span class="text-accent">Security</span></h2>
+            </div>
+
+            <div class="security__grid{% if labs and certifications %} security__grid--split{% endif %}">
+                {% if labs %}
+                <div class="security__labs">
+                    <h3 class="security__subtitle mono"><span class="text-accent">./</span> labs &amp; rooms</h3>
+                    <div class="security__cards">
+                        {% for lab in labs %}
+                        <article class="project-card reveal">
+                            <div class="project-card__top">
+                                <div class="project-card__icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </div>
+                                {% if lab.url %}
+                                <div class="project-card__actions">
+                                    <a href="{{ lab.url }}" class="icon-btn" aria-label="Open lab" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <h3 class="project-card__title">{{ lab.title }}</h3>
+                            <p class="lab-meta mono">{{ lab.platform }}{% if lab.completed_on %} · {{ lab.completed_on|date:"Y-m" }}{% endif %}</p>
+                            {% if lab.description %}<p class="project-card__desc">{{ lab.description }}</p>{% endif %}
+                            <div class="project-card__tags">
+                                {% for tag in lab.tag_list %}<span class="tag">{{ tag }}</span>{% endfor %}
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if certifications %}
+                <div class="security__certs">
+                    <h3 class="security__subtitle mono"><span class="text-accent">./</span> certifications</h3>
+                    <ul class="cert-list">
+                        {% for cert in certifications %}
+                        <li class="cert reveal">
+                            <div class="cert__top">
+                                <span class="cert__title">{{ cert.title }}</span>
+                                {% if cert.in_progress %}<span class="cert__badge mono">In progress</span>{% endif %}
+                            </div>
+                            <div class="cert__meta mono">{{ cert.issuer }}{% if cert.year %} · {{ cert.year }}{% endif %}</div>
+                            {% if cert.url %}<a href="{{ cert.url }}" class="cert__link mono" target="_blank" rel="noopener">verify ↗</a>{% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>

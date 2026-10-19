@@ -3,9 +3,10 @@
 {% block content %}
   {% include "sections/hero.html" %}
   {% include "sections/about.html" %}
-  {% include "sections/skills.html" %}
-  {% include "sections/projects.html" %}
-  {% include "sections/experience.html" %}
+  {% if show.skills %}{% include "sections/skills.html" %}{% endif %}
+  {% if show.security %}{% include "sections/security.html" %}{% endif %}
+  {% if show.projects %}{% include "sections/projects.html" %}{% endif %}
+  {% if show.experience %}{% include "sections/experience.html" %}{% endif %}
   {% include "sections/contact.html" %}
 {% endblock %}
 {% block extra_js %}
