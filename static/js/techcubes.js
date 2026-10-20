@@ -72,6 +72,7 @@
   var glowTex = glowTexture();
 
   function drawIcon(key, label) {
+    if (CUSTOM[key]) return CUSTOM[key];
     return function (g, S) {
       var d = ICONS[key];
       if (d && typeof Path2D !== 'undefined') {
@@ -95,6 +96,27 @@
     g.beginPath(); g.moveTo(164, 88); g.lineTo(210, 128); g.lineTo(164, 168); g.stroke();
     g.beginPath(); g.moveTo(140, 80); g.lineTo(116, 176); g.stroke();
   }
+
+  function drawShield(g, S) {                 // escudo com fechadura (cibersegurança)
+    var cx = S / 2;
+    g.lineWidth = 12;
+    g.lineJoin = 'round';
+    g.lineCap = 'round';
+    g.beginPath();
+    g.moveTo(cx, 40);
+    g.lineTo(cx + 66, 66);
+    g.lineTo(cx + 66, 128);
+    g.quadraticCurveTo(cx + 66, 190, cx, 218);
+    g.quadraticCurveTo(cx - 66, 190, cx - 66, 128);
+    g.lineTo(cx - 66, 66);
+    g.closePath();
+    g.stroke();
+    g.beginPath(); g.arc(cx, 112, 15, 0, Math.PI * 2); g.fill();
+    g.beginPath(); g.moveTo(cx - 9, 118); g.lineTo(cx + 9, 118); g.lineTo(cx + 14, 160); g.lineTo(cx - 14, 160); g.closePath(); g.fill();
+  }
+
+  // data-key sem logótipo da Simple Icons usa um desenho próprio
+  var CUSTOM = { cybersecurity: drawShield };
 
   function faceTexture(draw, accent) {
     var S = 256;
@@ -143,7 +165,7 @@
       blending: THREE.AdditiveBlending, depthWrite: false
     });
     var glow = new THREE.Sprite(glowMat);
-    glow.scale.setScalar(size * 3.4);
+    glow.scale.setScalar(size * 2.4);
     holder.add(glow);
     holder.add(body);
     world.add(holder);
@@ -375,7 +397,7 @@
     W = w; H = h;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    camera.position.z = Math.max(10.8, 5.5 / (camFov * camera.aspect));  // cabe em qualquer proporção
+    camera.position.z = Math.max(11.6, 5.9 / (camFov * camera.aspect));  // cabe em qualquer proporção
     camera.updateProjectionMatrix();
     if (reduceMotion) refreshStatic();
   }

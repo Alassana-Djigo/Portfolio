@@ -1222,3 +1222,9 @@ html { scroll-padding-top: 5rem; }
 @media (max-width: 480px) {
   .about__scene { aspect-ratio: 1 / 1; min-height: 280px; }
 }
+
+/* Suaviza as bordas do canvas 3D: nenhum brilho acaba numa linha reta */
+.about__scene canvas {
+  -webkit-mask-image: radial-gradient(ellipse closest-side, #000 86%, transparent 100%);
+  mask-image: radial-gradient(ellipse closest-side, #000 86%, transparent 100%);
+}
