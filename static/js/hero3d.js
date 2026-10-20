@@ -137,7 +137,7 @@
 
   function frame(now) {
     raf = requestAnimationFrame(frame);
-    var dt = Math.min((now - last) / 1000, 0.05);
+    var dt = Math.max(0, Math.min((now - last) / 1000, 0.05));
     last = now;
     autoRot += dt * 0.12;
     mx += (tx - mx) * 0.06;

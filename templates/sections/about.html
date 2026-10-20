@@ -24,6 +24,24 @@
                     </p>
                 </div>
 
+                <div class="about__side">
+                    <div class="about__scene reveal" id="techScene">
+                        <canvas id="techCanvas" role="img" aria-label="Interactive diagram: a code cube connected to Python, Django, FastAPI, PostgreSQL, Redis, Docker and Linux"></canvas>
+                        <div class="tech-tip" id="techTip" aria-hidden="true">
+                            <span class="tech-tip__name mono"></span>
+                            <span class="tech-tip__text"></span>
+                        </div>
+                        <ul class="tech-list">
+                            <li data-key="python" data-color="#FFD43B"><strong>Python</strong> <span>Main language: backend, automation and scripting.</span></li>
+                            <li data-key="django" data-color="#35D69A"><strong>Django</strong> <span>Web framework: APIs, admin and backend structure.</span></li>
+                            <li data-key="fastapi" data-color="#14C8B4"><strong>FastAPI</strong> <span>Async APIs: fast, typed services.</span></li>
+                            <li data-key="postgresql" data-color="#7B93FF"><strong>PostgreSQL</strong> <span>Relational database: data modeling and queries.</span></li>
+                            <li data-key="redis" data-color="#FF5C50"><strong>Redis</strong> <span>In-memory store: caching and async tasks.</span></li>
+                            <li data-key="docker" data-color="#29B6FF"><strong>Docker</strong> <span>Containers: reproducible environments.</span></li>
+                            <li data-key="linux" data-color="#F2F4F8"><strong>Linux</strong> <span>Systems: servers, networking and security.</span></li>
+                        </ul>
+                    </div>
+
                 <div class="about__stats reveal">
                     {% if projects %}
                     <div class="stat-card">
@@ -53,6 +71,7 @@
                         <div class="stat-card__eq mono">cert ⊂ Learning</div>
                     </div>
                     {% endif %}
+                </div>
                 </div>
             </div>
         </div>

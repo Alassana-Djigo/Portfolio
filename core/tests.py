@@ -102,3 +102,13 @@ class ContactAdminTests(TestCase):
 
     def test_admin_cannot_add_messages_by_hand(self):
         self.assertEqual(self.client.get("/admin/core/contactmessage/add/").status_code, 403)
+
+
+class AboutSceneTests(TestCase):
+    def test_about_has_tech_scene_with_fallback_list(self):
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, 'id="techScene"')
+        self.assertContains(response, 'id="techCanvas"')
+        self.assertContains(response, "tech-icons.js")
+        self.assertContains(response, "techcubes.js")
+        self.assertEqual(response.content.decode().count("<li data-key="), 7)
