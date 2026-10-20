@@ -131,3 +131,22 @@ class Certification(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ContactMessage(models.Model):
+    """Mensagem enviada pelo formulário de contacto do site."""
+
+    name = models.CharField("nome", max_length=100)
+    email = models.EmailField("email")
+    subject = models.CharField("assunto", max_length=150, blank=True)
+    message = models.TextField("mensagem")
+    created_at = models.DateTimeField("recebida em", auto_now_add=True)
+    is_read = models.BooleanField("lida", default=False)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "mensagem de contacto"
+        verbose_name_plural = "mensagens de contacto"
+
+    def __str__(self):
+        return f"{self.name} <{self.email}>"

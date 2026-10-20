@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Certification, Experience, Lab, Project, Skill, SkillCategory
+from .models import Certification, ContactMessage, Experience, Lab, Project, Skill, SkillCategory
 
 
 class SkillInline(admin.TabularInline):
@@ -35,3 +35,15 @@ class LabAdmin(admin.ModelAdmin):
 @admin.register(Certification)
 class CertificationAdmin(admin.ModelAdmin):
     list_display = ("title", "issuer", "year", "in_progress")
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ("name", "email", "subject", "created_at", "is_read")
+    list_filter = ("is_read",)
+    list_editable = ("is_read",)
+    search_fields = ("name", "email", "subject", "message")
+    readonly_fields = ("name", "email", "subject", "message", "created_at")
+
+    def has_add_permission(self, request):
+        return False  # as mensagens só chegam pelo formulário do site

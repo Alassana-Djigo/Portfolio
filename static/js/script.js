@@ -148,24 +148,58 @@ if (heroEl && heroGlow) {
   sections.forEach(s => io.observe(s));
 })();
 
-/* ─── Smooth CTA form interaction ──────────────────────── */
+/* ─── Contact form: envia para o Django (sem recarregar a página) ─── */
 (function initForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
 
-  form.addEventListener('submit', e => {
+  const status = document.getElementById('formStatus');
+  const btn    = form.querySelector('button[type="submit"]');
+  const label  = btn.querySelector('span');
+  const idle   = label.textContent;
+
+  function setStatus(text, kind) {
+    status.textContent = text;
+    if (kind) status.dataset.kind = kind; else delete status.dataset.kind;
+  }
+
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    const btn  = form.querySelector('button[type="submit"]');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '<span>Message sent ✓</span>';
-    btn.style.background = 'var(--green)';
-    btn.style.color      = 'var(--bg)';
-    setTimeout(() => {
-      btn.innerHTML = orig;
-      btn.style.background = '';
-      btn.style.color      = '';
-      form.reset();
-    }, 3000);
+    if (btn.disabled) return;
+    btn.disabled = true;
+    label.textContent = 'Sending…';
+    setStatus('');
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        credentials: 'same-origin'
+      });
+      let data = {};
+      try { data = await res.json(); } catch (_) { /* resposta sem JSON */ }
+
+      if (res.ok && data.ok) {
+        form.reset();
+        setStatus(data.message, 'success');
+        label.textContent = 'Message sent ✓';
+        btn.style.background = 'var(--green)';
+        btn.style.color      = 'var(--bg)';
+        setTimeout(() => {
+          label.textContent = idle;
+          btn.style.background = '';
+          btn.style.color      = '';
+          btn.disabled = false;
+        }, 3000);
+        return;
+      }
+      setStatus(data.message || 'Something went wrong. Please try again.', 'error');
+    } catch (err) {
+      setStatus('Could not send the message. Please check your connection or email me directly.', 'error');
+    }
+    label.textContent = idle;
+    btn.disabled = false;
   });
 })();
 
