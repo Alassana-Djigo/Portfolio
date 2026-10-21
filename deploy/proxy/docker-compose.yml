@@ -1,0 +1,26 @@
+# Proxy partilhado: único serviço que abre as portas 80/443 e trata dos certificados HTTPS.
+# Cada serviço novo junta-se à rede "web" e ganha um bloco no Caddyfile.
+services:
+  caddy:
+    image: caddy:2
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    env_file: .env
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - web
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  web:
+    name: web

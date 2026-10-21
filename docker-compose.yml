@@ -1,0 +1,21 @@
+# Portfólio. Não expõe portas: só o Caddy (deploy/proxy) o alcança, pela rede Docker "web".
+services:
+  web:
+    build: .
+    image: portfolio:latest
+    container_name: portfolio
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      SQLITE_PATH: /data/db.sqlite3
+    volumes:
+      - portfolio_data:/data
+    networks:
+      - web
+
+volumes:
+  portfolio_data:
+
+networks:
+  web:
+    external: true

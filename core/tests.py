@@ -1,5 +1,8 @@
+from unittest.mock import patch
+
 from django.contrib.auth import get_user_model
-from django.test import Client, TestCase
+from django.core import mail
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from .models import ContactMessage, Project
@@ -112,3 +115,48 @@ class AboutSceneTests(TestCase):
         self.assertContains(response, "tech-icons.js")
         self.assertContains(response, "techcubes.js")
         self.assertEqual(response.content.decode().count("<li data-key="), 7)
+
+
+LOCMEM = "django.core.mail.backends.locmem.EmailBackend"
+
+
+class ContactEmailTests(TestCase):
+    def setUp(self):
+        self.url = reverse("contact")
+
+    @override_settings(CONTACT_NOTIFY_EMAIL="me@example.com", EMAIL_BACKEND=LOCMEM)
+    def test_email_is_sent_when_configured(self):
+        response = self.client.post(self.url, VALID, **AJAX)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, ["me@example.com"])
+        self.assertIn("Ana", mail.outbox[0].subject)
+        self.assertIn(VALID["message"], mail.outbox[0].body)
+
+    @override_settings(CONTACT_NOTIFY_EMAIL="", EMAIL_BACKEND=LOCMEM)
+    def test_no_email_when_not_configured(self):
+        self.client.post(self.url, VALID, **AJAX)
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertEqual(ContactMessage.objects.count(), 1)
+
+    @override_settings(CONTACT_NOTIFY_EMAIL="me@example.com", EMAIL_BACKEND=LOCMEM)
+    def test_email_failure_never_breaks_the_form(self):
+        with patch("core.views.send_mail", side_effect=OSError("smtp down")):
+            with self.assertLogs("core.views", level="ERROR"):
+                response = self.client.post(self.url, VALID, **AJAX)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.json()["ok"])
+        self.assertEqual(ContactMessage.objects.count(), 1)  # a mensagem ficou guardada
+
+    @override_settings(CONTACT_NOTIFY_EMAIL="me@example.com", EMAIL_BACKEND=LOCMEM)
+    def test_no_email_for_honeypot_or_invalid(self):
+        self.client.post(self.url, {**VALID, "website": "spam"}, **AJAX)
+        self.client.post(self.url, {**VALID, "email": "nope"}, **AJAX)
+        self.assertEqual(len(mail.outbox), 0)
+
+
+class HealthCheckTests(TestCase):
+    def test_healthz_is_ok(self):
+        response = self.client.get(reverse("healthz"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, b"ok")

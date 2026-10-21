@@ -1,0 +1,13 @@
+.git
+.gitignore
+.env
+.env.*
+venv/
+.venv/
+__pycache__/
+*.pyc
+db.sqlite3
+staticfiles/
+backups/
+deploy/proxy/
+README.md
