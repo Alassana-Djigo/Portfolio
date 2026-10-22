@@ -92,3 +92,6 @@ pnpm-lock.yaml
 # =========================
 *.sql
 *.dump
+
+# Cópias de segurança da base de dados
+backups/

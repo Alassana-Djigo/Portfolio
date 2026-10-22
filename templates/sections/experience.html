@@ -12,7 +12,7 @@
                     <div class="timeline__dot"></div>
                     <div class="timeline__body">
                         <div class="timeline__meta">
-                            <span class="timeline__date mono">{{ exp.start_year }} — {% if exp.end_year %}{{ exp.end_year }}{% else %}Present{% endif %}</span>
+                            <span class="timeline__date mono">{% if exp.end_year and exp.end_year == exp.start_year %}{{ exp.start_year }}{% else %}{{ exp.start_year }} — {% if exp.end_year %}{{ exp.end_year }}{% else %}Present{% endif %}{% endif %}</span>
                             {% if exp.is_current %}<span class="timeline__badge">Current</span>{% endif %}
                         </div>
                         <h3 class="timeline__role">{{ exp.role }}</h3>

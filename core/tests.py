@@ -5,7 +5,7 @@ from django.core import mail
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from .models import ContactMessage, Project
+from .models import ContactMessage, Experience, Project
 from .views import MAX_MESSAGES_PER_HOUR
 
 AJAX = {"HTTP_X_REQUESTED_WITH": "XMLHttpRequest"}
@@ -160,3 +160,13 @@ class HealthCheckTests(TestCase):
         response = self.client.get(reverse("healthz"))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"ok")
+
+
+class ExperienceDisplayTests(TestCase):
+    def test_single_year_and_ongoing_dates(self):
+        Experience.objects.create(role="Diploma", organization="School", start_year=2022, end_year=2022, description="d")
+        Experience.objects.create(role="Course", organization="Campus", start_year=2025, description="d")
+        html = self.client.get(reverse("home")).content.decode()
+        self.assertIn(">2022<", html)            # um só ano
+        self.assertNotIn("2022 — 2022", html)
+        self.assertIn("2025 — Present", html)    # ainda a decorrer
